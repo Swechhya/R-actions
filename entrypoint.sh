@@ -37,8 +37,9 @@ if [ "$1" = "all" ]; then
         if [-f "${package}_${version}" ]; then
             R CMD check ./"${package}_${version}" --as-cran
         else 
-           echo "\e[31m\e[1mPackage did not build properly, no package to test"
-           exit 1 
+            echo "\e[31m\e[1mPackage did not build properly, no package to test"
+            exit 1 
+        fi
     else 
         echo "\e[31m\e[1mDESCRIPTION file does not exist"
         exit 1
