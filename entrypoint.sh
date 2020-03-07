@@ -25,11 +25,12 @@ if [ "$1" = "all" ]; then
         echo "DESCRIPTION exist"
         apt-get -y install texlive-latex-base
 
-        while read -r line; do
-            [[ $line =~ ^(Package:)]] && package_name="${line#*${BASH_REMATCH[1]}}"$'\n'"$package_name"
-            [[ $line =~ ^(Version:)]] && version="${line#*${BASH_REMATCH[1]}}"
-        done < DESCRIPTION
-        R CMD check ./"${package_name}_${version}" --as-cran
+        package=$(grep -Po 'Package(.*)' DESCRIPTION)
+        version=$(grep -Po 'Verrsion(.*)' DESCRIPTION)
+        package=${package##Package: }
+        version=${package##Version: }
+
+        R CMD check ./"${package}_${version}" --as-cran
     else 
         echo "DESCRIPTION does not exist"
     fi
