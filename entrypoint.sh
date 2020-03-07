@@ -28,14 +28,19 @@ if [ "$1" = "all" ]; then
         apt-get -y install texlive-latex-base
 
         echo "\e[33m\e[1mGet package name and version from description file"
-        package=$(grep -Po 'Package(.*)' DESCRIPTION)
-        version=$(grep -Po 'Version(.*)' DESCRIPTION)
+        package=$(grep -Po 'Package:(.*)' DESCRIPTION)
+        version=$(grep -Po 'Version:(.*)' DESCRIPTION)
         package=${package##Package: }
         version=${version##Version: }
 
         echo "\e[33m\e[1mStart package check and test for ${package}_${version}"
-        R CMD check ./"${package}_${version}" --as-cran
+        if [-f "${package}_${version}" ]; 
+            R CMD check ./"${package}_${version}" --as-cran
+        else 
+           echo "\e[31m\e[1mPackage did not build properly, no package to test"
+           exit 1 
     else 
-        echo "\e[31m\e[1mDESCRIPTION does not exist"
+        echo "\e[31m\e[1mDESCRIPTION file does not exist"
+        exit 1
     fi
 fi
