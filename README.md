@@ -1,23 +1,25 @@
-# Hello world docker action
+# R package build and test action
 
-This action prints "Hello World" to the log or "Hello" + the name of a person to greet. To learn how this action was built, see "[Creating a Docker container action](https://help.github.com/en/articles/creating-a-docker-container-action)" in the GitHub Help documentation.
+This action is designed to automatically run build and check for R packages on their code with every commit.
 
-## Inputs
+## Example Usage
+To get this action running in your project, add the following config to .github/workflows/frcbuild.yml:
+```yml
+name: R Build and Checks
+on: [push, pull_request]
 
-### `who-to-greet`
-
-**Required** The name of the person to greet. Default `"World"`.
-
-## Outputs
-
-### `time`
-
-The time we greeted you.
-
-## Example usage
-
-```yaml
-uses: actions/hello-world-docker-action@master
-with:
-  who-to-greet: 'Mona the Octocat'
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+    - name: R Build and Checks
+      uses: Swechhya/R-actions@master
+      with:
+        action: 'all'
 ```
+
+The action property can be any one of:
+- `build` Only builds the package
+- `all` Runs build and checks the built package
+
