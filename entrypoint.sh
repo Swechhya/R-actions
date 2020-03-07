@@ -33,7 +33,7 @@ if [ "$1" = "all" ]; then
         package=${package##Package: }
         version=${package##Version: }
 
-           echo "\e[33m\e[1mStart package check and test"
+        echo "\e[33m\e[1mStart package check and test for ${package}_${version}"
         R CMD check ./"${package}_${version}" --as-cran
     else 
         echo "\e[31m\e[1mDESCRIPTION does not exist"
