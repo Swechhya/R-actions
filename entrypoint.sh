@@ -19,29 +19,29 @@ fi
 # Build and check
 if [ "$1" = "all" ]; then
     echo "\e[33m\e[1mRunning all tasks"
-    echo "\e[33m\e[1mStart package build"
+    echo "\e[33m\e[1mStart package build."
     R CMD build ./
-    echo "\e[33m\e[1mPackage build ended"
+    echo "\e[33m\e[1mPackage build ended."
     # Check if description file exi
     if [ -f DESCRIPTION ]; then
-        echo "\e[33m\e[1mDESCRIPTION exist"
+        echo "\e[33m\e[1mDESCRIPTION exist."
         apt-get -y install texlive-latex-base
 
-        echo "\e[33m\e[1mGet package name and version from description file"
+        echo "\e[33m\e[1mGet package name and version from description file."
         package=$(grep -Po 'Package:(.*)' DESCRIPTION)
         version=$(grep -Po 'Version:(.*)' DESCRIPTION)
         package=${package##Package: }
         version=${version##Version: }
 
         echo "\e[33m\e[1mStart package check and test for ${package}_${version}"
-        if [-f ${package}_${version}]; then
+        if [ -f ${package}_${version}]; then
             R CMD check ./"${package}_${version}" --as-cran
         else 
-            echo "\e[31m\e[1mPackage did not build properly, no package to test"
+            echo "\e[31m\e[1mPackage did not build properly, no package to test."
             exit 1 
         fi
     else 
-        echo "\e[31m\e[1mDESCRIPTION file does not exist"
+        echo "\e[31m\e[1mDESCRIPTION file does not exist."
         exit 1
     fi
 fi
