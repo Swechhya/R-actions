@@ -1,5 +1,8 @@
 name: 'R-actions'
 description: 'Automatically build and test your R projects'
+branding:
+  icon: 'check-square'
+  color: 'blue'
 inputs:
   action:  # id of inpu
     description: 'What should be run? One of: ["all", "build"]'
