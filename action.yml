@@ -2,7 +2,7 @@ name: 'R-actions'
 description: 'Automatically build and test your R projects'
 inputs:
   action:  # id of inpu
-    description: 'What should be run? One of: ["all", "build", "test"]'
+    description: 'What should be run? One of: ["all", "build"]'
     default: 'all'
 runs:
   using: 'docker'
