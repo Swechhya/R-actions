@@ -22,17 +22,16 @@ if [ "$1" = "all" ]; then
     echo "Running all tasks"
     R CMD build ./
     # Check if description file exits
-    DESCRIPTION = './DESCRIPTION'
-    if [ -f "$DESCRIPTION" ]; then
-        echo "$DESCRIPTION exist"
+    if [ -f DESCRIPTION ]; then
+        echo "DESCRIPTION exist"
         apt-get -y install texlive-latex-base
 
         while read -r line; do
             [[ $line =~ ^(Package: ) ]] && package_name="${line#*${BASH_REMATCH[1]}}"$'\n'"$r"
             [[ $line =~ ^(Version: ) ]] && version="${line#*${BASH_REMATCH[1]}}"
-        done < $DESCRIPTION
+        done < DESCRIPTION
         R CMD check ./"${package_name}_${version}" --as-cran
     else 
-        echo "$DESCRIPTION does not exist"
+        echo "DESCRIPTION does not exist"
     fi
 fi
