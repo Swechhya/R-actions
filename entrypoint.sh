@@ -34,7 +34,7 @@ if [ "$1" = "all" ]; then
         version=${version##Version: }
 
         echo "\e[33m\e[1mStart package check and test for ${package}_${version}"
-        if [-f "${package}_${version}" ]; then
+        if [-f ${package}_${version}]; then
             R CMD check ./"${package}_${version}" --as-cran
         else 
             echo "\e[31m\e[1mPackage did not build properly, no package to test"
