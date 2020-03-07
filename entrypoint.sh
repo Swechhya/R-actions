@@ -31,7 +31,7 @@ if [ "$1" = "all" ]; then
         package=$(grep -Po 'Package(.*)' DESCRIPTION)
         version=$(grep -Po 'Version(.*)' DESCRIPTION)
         package=${package##Package: }
-        version=${package##Version: }
+        version=${version##Version: }
 
         echo "\e[33m\e[1mStart package check and test for ${package}_${version}"
         R CMD check ./"${package}_${version}" --as-cran
