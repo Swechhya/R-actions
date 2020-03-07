@@ -25,7 +25,7 @@ if [ "$1" = "all" ]; then
     # Check if description file exi
     if [ -f DESCRIPTION ]; then
         echo "\e[33m\e[1mDESCRIPTION exist."
-        apt-get -y install texlive-latex-base
+        apt-get -y install texlive
 
         echo "\e[33m\e[1mGet package name and version from description file."
         package=$(grep -Po 'Package:(.*)' DESCRIPTION)
