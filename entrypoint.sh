@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 # Install R
-echo "Installing R and dependencies"
+echo "\e[1mInstalling R and dependencies"
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y r-base
 apt-get install -y r-base r-base-dev r-cran-xml r-cran-rjava libcurl4-openssl-dev
@@ -12,26 +12,30 @@ apt-get install -y  r-cran-reshape  r-cran-reshape2 r-cran-rmysql
 
 # Check for build only
 if [ "$1" = "build" ]; then
-    echo "Running only build task"
+    echo "\e[33m\e[1mRunning only build task"
     R CMD build ./
 fi
 
 # Build and check
 if [ "$1" = "all" ]; then
-    echo "Running all tasks"
+    echo "\e[33m\e[1mRunning all tasks"
+    echo "\e[33m\e[1mStart package build"
     R CMD build ./
+    echo "\e[33m\e[1mPackage build ended"
     # Check if description file exi
     if [ -f DESCRIPTION ]; then
-        echo "DESCRIPTION exist"
+        echo "\e[33m\e[1mDESCRIPTION exist"
         apt-get -y install texlive-latex-base
 
+        echo "\e[33m\e[1mGet package name and version from description file"
         package=$(grep -Po 'Package(.*)' DESCRIPTION)
         version=$(grep -Po 'Verrsion(.*)' DESCRIPTION)
         package=${package##Package: }
         version=${package##Version: }
 
+           echo "\e[33m\e[1mStart package check and test"
         R CMD check ./"${package}_${version}" --as-cran
     else 
-        echo "DESCRIPTION does not exist"
+        echo "\e[31m\e[1mDESCRIPTION does not exist"
     fi
 fi
