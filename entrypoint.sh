@@ -28,12 +28,14 @@ fi
 
 if [ "$1" = "test" ]; then
     echo "Running only test task"
-    R CMD check ./
+    apt-get install texlive-latex-base
+    R CMD check ./ --as-cran
     
 fi
 
 if [ "$1" = "all" ]; then
     echo "Running all tasks"
     R CMD build ./
-    R CMD check ./
+    apt-get install texlive-latex-base
+    R CMD check ./ --as-cran
 fi
