@@ -29,7 +29,7 @@ if [ "$1" = "all" ]; then
 
         echo "\e[33m\e[1mGet package name and version from description file"
         package=$(grep -Po 'Package(.*)' DESCRIPTION)
-        version=$(grep -Po 'Verrsion(.*)' DESCRIPTION)
+        version=$(grep -Po 'Version(.*)' DESCRIPTION)
         package=${package##Package: }
         version=${package##Version: }
 
