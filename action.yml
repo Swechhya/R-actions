@@ -1,15 +1,11 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'R-actions'
+description: 'Automatically build and test your R projects'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  action:  # id of inpu
+    description: 'What should be run? One of: ["all", "build", "test"]'
+    default: 'all'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{inputs.action}}
