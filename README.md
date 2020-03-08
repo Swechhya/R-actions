@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: R Build and Checks
-      uses: Swechhya/R-actions@v1.0
+      uses: Swechhya/R-actions@v1.1
       with:
         action: 'all'
 ```
