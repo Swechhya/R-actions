@@ -35,7 +35,7 @@ if [ "$1" = "all" ]; then
         #if [ "$2" = "true"]; then
             echo "\e[33m\e[1mInstall Bioconductor"
             Rscript -e 'if (!requireNamespace("BiocManager", quietly=TRUE))  install.packages("BiocManager");if (FALSE) BiocManager::install(version = "devel", ask = FALSE);cat(append = TRUE, file = "~/.Rprofile.site", "options(repos = BiocManager::repositories());")'
-            Rscript -e 'setRepositories(addURLs = c(BiocManager::repositories()))'
+            Rscript -e 'setRepositories(addURLs = c(BiocManager::repositories()), ind = 9)'
         #fi
 
         echo "\e[33m\e[1mInstall package dependencies."
