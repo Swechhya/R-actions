@@ -10,6 +10,9 @@ apt-get install -y xml2 default-jre default-jdk mesa-common-dev libglu1-mesa-dev
 apt-get install -y mesa-common-dev libx11-dev r-cran-rgl r-cran-rglpk r-cran-rsymphony r-cran-plyr 
 apt-get install -y  r-cran-reshape  r-cran-reshape2 r-cran-rmysql
 
+echo "\e[33m\e[1mR session information"
+Rscript -e 'sessionInfo()'
+
 # Check for build only
 if [ "$1" = "build" ]; then
     echo "\e[33m\e[1mRunning only build task"
