@@ -29,7 +29,7 @@ if [ "$1" = "all" ]; then
         apt-get -y install texlive
 
         # Check for bioconductor dependencies
-        if [ "$2"]; then
+        if [ "$2" = "true"]; then
             echo "\e[33m\e[1mInstall Bioconductor"
             Rscript -e 'if (!requireNamespace("BiocManager", quietly=TRUE))  install.packages("BiocManager");BiocManager::install();cat(append = TRUE, file = "~/.Rprofile.site", "options(repos = BiocManager::repositories());")'
         fi
