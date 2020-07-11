@@ -4,9 +4,12 @@ branding:
   icon: 'check-square'
   color: 'blue'
 inputs:
-  action:  # id of inpu
+  action:  # id of input  
     description: 'What should be run? One of: ["all", "build"]'
     default: 'all'
+  needs_bioc: 
+    description: 'Is Bioconductor package needed? One of ["true", "false"]'
+    default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
