@@ -22,16 +22,23 @@ if [ "$1" = "all" ]; then
     echo "\e[33m\e[1mStart package build."
     R CMD build ./
     echo "\e[33m\e[1mPackage build ended."
-    # Check if description file exi
+    # Check if description file exists
     if [ -f DESCRIPTION ]; then
         echo "\e[33m\e[1mDESCRIPTION exist."
         echo "\e[33m\e[1mInstall texlive for PDF manual check."
         apt-get -y install texlive
 
+        # Check for bioconductor dependencies
+        if [ "$2"]; then
+            echo "\e[33m\e[1mInstall Bioconductor"
+            Rscript -e 'if (!requireNamespace("BiocManager", quietly=TRUE))  install.packages("BiocManager");BiocManager::install();cat(append = TRUE, file = "~/.Rprofile.site", "options(repos = BiocManager::repositories());")'
+        fi
+
         echo "\e[33m\e[1mInstall package dependencies."
         Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
         Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages()), collapse=", ")); q(status = 1, save = "no")}'
-        
+       
+
         echo "\e[33m\e[1mGet package name and version from description file."
         package=$(grep -Po 'Package:(.*)' DESCRIPTION)
         version=$(grep -Po 'Version:(.*)' DESCRIPTION)
