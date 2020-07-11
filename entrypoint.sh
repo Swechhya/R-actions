@@ -39,8 +39,8 @@ if [ "$1" = "all" ]; then
         #fi
 
         echo "\e[33m\e[1mInstall package dependencies."
-        Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")'
-        Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages()), collapse=", ")); q(status = 1, save = "no")}'
+        Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", repo = c(BiocManager::repositories()))'
+        Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA, repos = c(BiocManager::repositories()));remotes::install_deps(dependencies = TRUE, repos = c(BiocManager::repositories()));if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages(repo=)), collapse=", ")); q(status = 1, save = "no")}'
        
 
         echo "\e[33m\e[1mGet package name and version from description file."
