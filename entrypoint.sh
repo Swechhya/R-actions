@@ -10,9 +10,6 @@ apt-get install -y xml2 default-jre default-jdk mesa-common-dev libglu1-mesa-dev
 apt-get install -y mesa-common-dev libx11-dev r-cran-rgl r-cran-rglpk r-cran-rsymphony r-cran-plyr 
 apt-get install -y  r-cran-reshape  r-cran-reshape2 r-cran-rmysql
 
-#echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' > ~/.Rprofile.site
-#export 'R_PROFILE', "~/.Rprofile.site"
-
 echo "\e[33m\e[1mR session information"
 Rscript -e 'sessionInfo()'
 
@@ -38,7 +35,7 @@ if [ "$1" = "all" ]; then
         #if [ "$2" = "true"]; then
             echo "\e[33m\e[1mInstall Bioconductor"
             Rscript -e 'if (!requireNamespace("BiocManager", quietly=TRUE))  install.packages("BiocManager");if (FALSE) BiocManager::install(version = "devel", ask = FALSE);cat(append = TRUE, file = "~/.Rprofile.site", "options(repos = BiocManager::repositories());")'
-            Rscript -e 'setRepositories(addURLs = c(BiocManager::repositories())'
+            Rscript -e 'setRepositories(addURLs = c(BiocManager::repositories()))'
         #fi
 
         echo "\e[33m\e[1mInstall package dependencies."
