@@ -12,3 +12,4 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{inputs.action}}
+    - ${{inputs.needs_bioc}}
