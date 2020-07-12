@@ -17,9 +17,14 @@ jobs:
       uses: Swechhya/R-actions@v1.1
       with:
         action: 'all'
+        needsBioc: false
 ```
 
 The action property can be any one of:
 - `build` Only builds the package
 - `all` Runs build and checks the built package
+
+The needsBioc property can be any one of:
+- `true` Installs bioconductor and dependencies
+- `false` Only installs CRAN dependencies
 

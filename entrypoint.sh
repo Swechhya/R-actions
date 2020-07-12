@@ -10,6 +10,9 @@ apt-get install -y xml2 default-jre default-jdk mesa-common-dev libglu1-mesa-dev
 apt-get install -y mesa-common-dev libx11-dev r-cran-rgl r-cran-rglpk r-cran-rsymphony r-cran-plyr 
 apt-get install -y  r-cran-reshape  r-cran-reshape2 r-cran-rmysql
 
+echo "\e[33m\e[1mR session information"
+Rscript -e 'sessionInfo()'
+
 # Check for build only
 if [ "$1" = "build" ]; then
     echo "\e[33m\e[1mRunning only build task"
@@ -22,16 +25,26 @@ if [ "$1" = "all" ]; then
     echo "\e[33m\e[1mStart package build."
     R CMD build ./
     echo "\e[33m\e[1mPackage build ended."
-    # Check if description file exi
+    # Check if description file exist
     if [ -f DESCRIPTION ]; then
         echo "\e[33m\e[1mDESCRIPTION exist."
         echo "\e[33m\e[1mInstall texlive for PDF manual check."
         apt-get -y install texlive
 
-        echo "\e[33m\e[1mInstall package dependencies."
-        Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
-        Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages()), collapse=", ")); q(status = 1, save = "no")}'
-        
+        # Check for bioconductor dependencies
+        if [ "$2" = true ]; then
+            echo "\e[33m\e[1mInstall Bioconductor"
+            Rscript -e 'if (!requireNamespace("BiocManager", quietly=TRUE))  install.packages("BiocManager");if (FALSE) BiocManager::install(version = "devel", ask = FALSE);cat(append = TRUE, file = "~/.Rprofile.site", "options(repos = BiocManager::repositories());")'
+            
+            echo "\e[33m\e[1mInstall package dependencies."
+            Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", repo = c(BiocManager::repositories()))'
+            Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA, repos = c(BiocManager::repositories()));remotes::install_deps(dependencies = TRUE, repos = c(BiocManager::repositories()));if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages(repo=)), collapse=", ")); q(status = 1, save = "no")}'
+        else
+            echo "\e[33m\e[1mInstall package dependencies."
+            Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")'
+            Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages(repo=)), collapse=", ")); q(status = 1, save = "no")}'
+        fi
+
         echo "\e[33m\e[1mGet package name and version from description file."
         package=$(grep -Po 'Package:(.*)' DESCRIPTION)
         version=$(grep -Po 'Version:(.*)' DESCRIPTION)
