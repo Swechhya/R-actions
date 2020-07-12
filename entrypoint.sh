@@ -13,6 +13,10 @@ apt-get install -y  r-cran-reshape  r-cran-reshape2 r-cran-rmysql
 echo "\e[33m\e[1mR session information"
 Rscript -e 'sessionInfo()'
 
+#Test echo params
+echo "Test echo param 1: $1"
+echo "Test echo param 2: $2"
+
 # Check for build only
 if [ "$1" = "build" ]; then
     echo "\e[33m\e[1mRunning only build task"
