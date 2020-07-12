@@ -13,10 +13,6 @@ apt-get install -y  r-cran-reshape  r-cran-reshape2 r-cran-rmysql
 echo "\e[33m\e[1mR session information"
 Rscript -e 'sessionInfo()'
 
-#Test echo params
-echo "Test echo param 1: $1"
-echo "Test echo param 2: $2"
-
 # Check for build only
 if [ "$1" = "build" ]; then
     echo "\e[33m\e[1mRunning only build task"
@@ -39,7 +35,7 @@ if [ "$1" = "all" ]; then
         if [ "$2" = true ]; then
             echo "\e[33m\e[1mInstall Bioconductor"
             Rscript -e 'if (!requireNamespace("BiocManager", quietly=TRUE))  install.packages("BiocManager");if (FALSE) BiocManager::install(version = "devel", ask = FALSE);cat(append = TRUE, file = "~/.Rprofile.site", "options(repos = BiocManager::repositories());")'
-            Rscript -e 'setRepositories(addURLs = c(BiocManager::repositories()), ind = 9)'
+            
             echo "\e[33m\e[1mInstall package dependencies."
             Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", repo = c(BiocManager::repositories()))'
             Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA, repos = c(BiocManager::repositories()));remotes::install_deps(dependencies = TRUE, repos = c(BiocManager::repositories()));if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages(repo=)), collapse=", ")); q(status = 1, save = "no")}'
