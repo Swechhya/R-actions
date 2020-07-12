@@ -32,16 +32,14 @@ if [ "$1" = "all" ]; then
         apt-get -y install texlive
 
         # Check for bioconductor dependencies
-        if [ "$2" = true]; then
+        if [ "$2" = "true"]; then
             echo "\e[33m\e[1mInstall Bioconductor"
             Rscript -e 'if (!requireNamespace("BiocManager", quietly=TRUE))  install.packages("BiocManager");if (FALSE) BiocManager::install(version = "devel", ask = FALSE);cat(append = TRUE, file = "~/.Rprofile.site", "options(repos = BiocManager::repositories());")'
             Rscript -e 'setRepositories(addURLs = c(BiocManager::repositories()), ind = 9)'
             echo "\e[33m\e[1mInstall package dependencies."
             Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", repo = c(BiocManager::repositories()))'
             Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA, repos = c(BiocManager::repositories()));remotes::install_deps(dependencies = TRUE, repos = c(BiocManager::repositories()));if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages(repo=)), collapse=", ")); q(status = 1, save = "no")}'
-        fi
-
-        if ["$2" = false];then
+        else
             echo "\e[33m\e[1mInstall package dependencies."
             Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")'
             Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages(repo=)), collapse=", ")); q(status = 1, save = "no")}'
