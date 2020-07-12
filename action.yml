@@ -7,12 +7,12 @@ inputs:
   action:  # id of input  
     description: 'What should be run? One of: ["all", "build"]'
     default: 'all'
-  needs_bioc: 
-    description: 'Is Bioconductor package needed? One of ["true", "false"]'
+  needsBioc: 
+    description: 'Is Bioconductor package needed? One of [true, false]'
     default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{inputs.action}}
-    - ${{inputs.needs_bioc}}
+    - ${{inputs.needsBioc}}
