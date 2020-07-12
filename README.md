@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: R Build and Checks
-      uses: Swechhya/R-actions@v1.1
+      uses: Swechhya/R-actions@v1.2
       with:
         action: 'all'
         needsBioc: false
