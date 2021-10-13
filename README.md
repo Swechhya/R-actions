@@ -18,6 +18,7 @@ jobs:
       with:
         action: 'all'
         needsBioc: false
+        buildSubDirectory: './'
 ```
 
 The action property can be any one of:

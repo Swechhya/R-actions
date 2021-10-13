@@ -10,9 +10,13 @@ inputs:
   needsBioc: 
     description: 'Is Bioconductor package needed? One of [true, false]'
     default: false
+  buildSubDirectory:
+    description: 'The path saving source code of package in repository'
+    default: './'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{inputs.action}}
     - ${{inputs.needsBioc}}
+    - ${{inputs.buildSubDirectory}}
