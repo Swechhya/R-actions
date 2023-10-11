@@ -10,7 +10,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: R Build and Checks
